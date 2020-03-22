@@ -5,9 +5,32 @@ const mongoose = require("mongoose");
 
 const Student = require("./Models/Student");
 
-mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost/student-selector", {
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/student-selector",
+  {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  })
-  .then(() => console.log("You have been connected to mongodb"));
+  }
+);
+
+function runProgram() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["Pick a student", "Add students", "Quit"],
+        name: "option"
+      }
+    ])
+    .then(inqurerResponse => {
+      if (inqurerResponse.option === "Quit") {
+        process.exit();
+      } else {
+        console.log("going well");
+        process.exit();
+      }
+    });
+}
+
+runProgram();
