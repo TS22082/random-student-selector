@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
+const runProgram = require("./runProgram");
 
-function addStudent(cb) {
+function addStudent() {
   inquirer
     .prompt([
       {
@@ -11,8 +12,17 @@ function addStudent(cb) {
       }
     ])
     .then(inqurerResponse => {
-      cb(inqurerResponse.option);
+      const choice = inqurerResponse;
+
+      switch (choice) {
+        case "Add Student":
+          break;
+
+        default:
+          process.exit();
+          break;
+      }
     });
 }
 
-module.exports = runProgram;
+module.exports = addStudent;
