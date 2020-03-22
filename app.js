@@ -1,10 +1,13 @@
-const inquirer = require("inquirer");
 const colors = require("colors");
 const cowsay = require("cowsay");
 const mongoose = require("mongoose");
 
+const runProgram = require("./Menus/runProgram");
+
+//Connect to student model
 const Student = require("./Models/Student");
 
+// Create a connection mongoDB
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/student-selector",
   {
@@ -13,24 +16,6 @@ mongoose.connect(
   }
 );
 
-function runProgram() {
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        message: "What would you like to do?",
-        choices: ["Pick a student", "Add students", "Quit"],
-        name: "option"
-      }
-    ])
-    .then(inqurerResponse => {
-      if (inqurerResponse.option === "Quit") {
-        process.exit();
-      } else {
-        console.log("going well");
-        process.exit();
-      }
-    });
-}
-
-runProgram();
+runProgram(res => {
+  console.log(res);
+});
