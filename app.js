@@ -122,9 +122,18 @@ function chooseStudentMenu() {
 }
 
 function chooseStudent() {
-  const randomStudent =
-    studentsArray[Math.floor(Math.random() * studentsArray.length)];
+  if (studentsArray.length > 0) {
+    const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
+    const randomStudent = studentsArray[randomStudentIndex];
 
-  console.log(randomStudent.name);
+    console.log(randomStudent.name);
+    studentsArray.splice(randomStudentIndex, 1);
+  } else {
+    studentsArray = [...fullStudentArray];
+    console.log("repopulating");
+
+    console.log(studentsArray);
+  }
+
   chooseStudentMenu();
 }
