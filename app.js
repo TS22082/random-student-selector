@@ -48,7 +48,8 @@ function runProgram() {
             chooseStudentMenu();
           } else {
             console.log(
-              "!!! You must add students before choosing a random student".red
+              "\n!!! You must add students before choosing a random student\n"
+                .red
             );
             runProgram();
           }
@@ -96,8 +97,9 @@ function dropStudentMenu() {
           Student.deleteMany()
             .then(async () => {
               console.log(
-                "!!! Entire collection of students were dropped".green
+                "\n!!! Entire collection of students were dropped\n".green
               );
+
               fullStudentArray = await Student.find();
               studentsArray = [...fullStudentArray];
 
@@ -126,16 +128,21 @@ function dropSelectStudents() {
       }
     ])
     .then(async res => {
-      res.studentsToDrop.forEach(async studentToDrop => {
-        try {
-          await Student.findOneAndRemove({ name: studentToDrop });
-        } catch {
-          console.log("there was a problem");
-        }
-      });
+      if (res.studentsToDrop.length > 0) {
+        res.studentsToDrop.forEach(async studentToDrop => {
+          try {
+            await Student.findOneAndRemove({ name: studentToDrop });
+          } catch {
+            console.log("there was a problem");
+          }
+        });
 
-      fullStudentArray = await Student.find();
-      studentsArray = [...fullStudentArray];
+        fullStudentArray = await Student.find();
+        studentsArray = [...fullStudentArray];
+      } else {
+        console.log("\n!!! Noone was deleted\n".red);
+      }
+
       runProgram();
     });
 }
@@ -147,7 +154,7 @@ function addStudentMenu() {
       {
         type: "list",
         message: "What would you like to do?",
-        choices: ["Add Student", "Quit"],
+        choices: ["Add Student(s)", "Quit"],
         name: "addScreenOption"
       }
     ])
@@ -155,7 +162,7 @@ function addStudentMenu() {
       const choice = inqurerResponse.addScreenOption;
 
       switch (choice) {
-        case "Add Student":
+        case "Add Student(s)":
           addStudent();
           break;
         default:
@@ -171,21 +178,28 @@ function addStudent() {
     .prompt([
       {
         type: "input",
-        message: 'Enter students name sperated by ", "',
+        message: 'Enter students name seperated by ", "\n',
         name: "newStudent"
       }
     ])
     .then(async res => {
       const newStudents = res.newStudent.split(", ");
-      console.log(newStudents);
 
-      newStudents.forEach(async student => {
-        const newStudent = await Student.create({ name: student });
-        newStudent.save();
+      if (newStudents.length > 0) {
+        newStudents.forEach(async student => {
+          const newStudent = await Student.create({ name: student });
+          newStudent.save();
 
-        fullStudentArray = await Student.find();
-        studentsArray = [...fullStudentArray];
-      });
+          fullStudentArray = await Student.find();
+          studentsArray = [...fullStudentArray];
+        });
+        console.log(
+          "\n!!! Students were succesfully added to the database\n".green
+        );
+      } else {
+        console.log("\n!!! No students were added to the database\n".red);
+      }
+
       addStudentMenu();
     });
 }
@@ -229,7 +243,7 @@ function chooseStudent() {
 
     studentsArray.splice(randomStudentIndex, 1);
   } else {
-    console.log("re-populating array...");
+    console.log("re-populating array...".cyan);
     studentsArray = [...fullStudentArray];
 
     const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
