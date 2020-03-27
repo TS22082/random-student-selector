@@ -137,17 +137,21 @@ function addStudent() {
     .prompt([
       {
         type: "input",
-        message: "Enter students name",
+        message: 'Enter students name sperated by ", "',
         name: "newStudent"
       }
     ])
     .then(async res => {
-      const newStudent = await Student.create({ name: res.newStudent });
-      newStudent.save();
-      fullStudentArray = await Student.find();
-      studentsArray = [...fullStudentArray];
+      const newStudents = res.newStudent.split(", ");
+      console.log(newStudents);
 
-      console.log(`${newStudent.name} was added succesfully`);
+      newStudents.forEach(async student => {
+        const newStudent = await Student.create({ name: student });
+        newStudent.save();
+
+        fullStudentArray = await Student.find();
+        studentsArray = [...fullStudentArray];
+      });
       addStudentMenu();
     });
 }
@@ -195,7 +199,6 @@ function chooseStudent() {
     studentsArray = [...fullStudentArray];
 
     const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
-
     const randomStudent = studentsArray[randomStudentIndex];
 
     console.log(
