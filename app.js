@@ -32,7 +32,7 @@ function runProgram() {
 
       switch (choice) {
         case "Enter Random Student selector":
-          chooseStudent();
+          chooseStudentMenu();
           break;
         case "Add students":
           addStudentMenu();
@@ -90,7 +90,7 @@ function addStudent() {
 }
 
 //pick random student
-function chooseStudent() {
+function chooseStudentMenu() {
   inquirer
     .prompt([
       {
@@ -101,12 +101,16 @@ function chooseStudent() {
       }
     ])
     .then(res => {
-      if (res.userChoice === "Pick Student") {
-        console.log("working");
-        process.exit();
-      } else {
-        console.log("working");
-        process.exit();
+      switch (res.userChoice) {
+        case "Pick Student":
+          console.log("working");
+          process.exit();
+          break;
+
+        default:
+          console.log("working");
+          process.exit();
+          break;
       }
     });
 }
