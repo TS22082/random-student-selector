@@ -115,8 +115,7 @@ function chooseStudentMenu() {
           break;
 
         default:
-          console.log("working");
-          process.exit();
+          runProgram();
           break;
       }
     });
@@ -124,8 +123,8 @@ function chooseStudentMenu() {
 
 function chooseStudent() {
   const randomStudent =
-    studentsArray[Math.floor(Math.random() * studentsArray.length)].name;
+    studentsArray[Math.floor(Math.random() * studentsArray.length)];
 
-  console.log(randomStudent);
+  console.log(randomStudent.name);
   chooseStudentMenu();
 }
