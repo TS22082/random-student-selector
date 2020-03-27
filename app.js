@@ -32,8 +32,8 @@ function runProgram() {
 
       switch (choice) {
         case "Enter Random Student selector":
-          process.exit();
-
+          chooseStudent();
+          break;
         case "Add students":
           addStudentMenu();
           break;
@@ -87,6 +87,28 @@ function addStudent() {
         })
       )
     );
+}
+
+//pick random student
+function chooseStudent() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["Pick Student", "Quit"],
+        name: "userChoice"
+      }
+    ])
+    .then(res => {
+      if (res.userChoice === "Pick Student") {
+        console.log("working");
+        process.exit();
+      } else {
+        console.log("working");
+        process.exit();
+      }
+    });
 }
 
 // runs program
