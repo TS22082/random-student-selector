@@ -62,8 +62,9 @@ function runProgram() {
             dropStudentMenu();
             break;
           } else {
-            console.log();
-            "!!! You must add students before you can drop anyone".red;
+            console.log(
+              "\n!!! You must add students before you can drop anyone\n".red
+            );
             runProgram();
             break;
           }
@@ -124,7 +125,7 @@ function dropSelectStudents() {
         name: "studentsToDrop"
       }
     ])
-    .then(res => {
+    .then(async res => {
       res.studentsToDrop.forEach(async studentToDrop => {
         try {
           await Student.findOneAndRemove({ name: studentToDrop });
@@ -133,6 +134,8 @@ function dropSelectStudents() {
         }
       });
 
+      fullStudentArray = await Student.find();
+      studentsArray = [...fullStudentArray];
       runProgram();
     });
 }
