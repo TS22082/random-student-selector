@@ -142,7 +142,6 @@ function dropSelectStudents() {
       } else {
         console.log("\n!!! Noone was deleted\n".red);
       }
-
       runProgram();
     });
 }
