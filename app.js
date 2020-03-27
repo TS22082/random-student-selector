@@ -43,7 +43,15 @@ function runProgram() {
 
       switch (choice) {
         case "Enter Random Student Selector":
-          chooseStudentMenu();
+          if (fullStudentArray.length > 0) {
+            chooseStudentMenu();
+          } else {
+            console.log(
+              "!!! You must add students before choosing a random student".red
+            );
+            runProgram();
+          }
+
           break;
         case "Add students":
           addStudentMenu();
@@ -77,8 +85,10 @@ function dropStudentMenu() {
 
         case "Drop All":
           Student.deleteMany()
-            .then(async res => {
-              console.log("entire collection of students were dropped");
+            .then(async () => {
+              console.log(
+                "!!! Entire collection of students were dropped".green
+              );
               fullStudentArray = await Student.find();
               studentsArray = [...fullStudentArray];
 
@@ -185,6 +195,7 @@ function chooseStudent() {
     studentsArray = [...fullStudentArray];
 
     const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
+
     const randomStudent = studentsArray[randomStudentIndex];
 
     console.log(
@@ -196,6 +207,5 @@ function chooseStudent() {
     );
     studentsArray.splice(randomStudentIndex, 1);
   }
-
   chooseStudentMenu();
 }
