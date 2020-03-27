@@ -19,8 +19,6 @@ mongoose
   .then(async () => {
     fullStudentArray = await Student.find();
     studentsArray = [...fullStudentArray];
-    studentsArray.pop();
-
     runProgram();
   });
 
@@ -31,7 +29,12 @@ function runProgram() {
       {
         type: "list",
         message: "What would you like to do?",
-        choices: ["Enter Random Student selector", "Add students", "Quit"],
+        choices: [
+          "Enter Random Student Selector",
+          "Add students",
+          "Drop Students",
+          "Quit"
+        ],
         name: "option"
       }
     ])
@@ -39,15 +42,56 @@ function runProgram() {
       const choice = inqurerResponse.option;
 
       switch (choice) {
-        case "Enter Random Student selector":
+        case "Enter Random Student Selector":
           chooseStudentMenu();
           break;
         case "Add students":
           addStudentMenu();
           break;
-
+        case "Drop Students":
+          dropStudentMenu();
+          break;
         default:
           process.exit();
+      }
+    });
+}
+
+//drop student menu
+function dropStudentMenu() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["Select Students", "Drop All", "Quit"],
+        name: "dropStudentOptions"
+      }
+    ])
+    .then(res => {
+      switch (res.dropStudentOptions) {
+        case "Select Students":
+          console.log("feature not yet started");
+          runProgram();
+          break;
+
+        case "Drop All":
+          Student.deleteMany()
+            .then(async res => {
+              console.log("entire collection of students were dropped");
+              fullStudentArray = await Student.find();
+              studentsArray = [...fullStudentArray];
+
+              runProgram();
+            })
+            .catch(() => {
+              console.log("nothing to delete");
+            });
+          break;
+
+        default:
+          runProgram();
+          break;
       }
     });
 }
@@ -138,8 +182,8 @@ function chooseStudent() {
     studentsArray.splice(randomStudentIndex, 1);
   } else {
     console.log("re-populating array...");
-
     studentsArray = [...fullStudentArray];
+
     const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
     const randomStudent = studentsArray[randomStudentIndex];
 
@@ -150,7 +194,6 @@ function chooseStudent() {
         T: "U "
       }).rainbow + "\n"
     );
-
     studentsArray.splice(randomStudentIndex, 1);
   }
 
