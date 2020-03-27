@@ -111,8 +111,7 @@ function chooseStudentMenu() {
     .then(res => {
       switch (res.userChoice) {
         case "Pick Student":
-          console.log("working");
-          process.exit();
+          chooseStudent();
           break;
 
         default:
@@ -121,4 +120,12 @@ function chooseStudentMenu() {
           break;
       }
     });
+}
+
+function chooseStudent() {
+  const randomStudent =
+    studentsArray[Math.floor(Math.random() * studentsArray.length)].name;
+
+  console.log(randomStudent);
+  chooseStudentMenu();
 }
