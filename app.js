@@ -8,13 +8,16 @@ const mongoose = require("mongoose");
 const Student = require("./Models/Student");
 
 // Create a connection mongoDB
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/student-selector",
-  {
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/student-selector", {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  }
-);
+  })
+  .then(async () => {
+    const students = await Student.find();
+    console.log(students);
+    runProgram();
+  });
 
 // function to start program
 function runProgram() {
@@ -114,7 +117,3 @@ function chooseStudentMenu() {
       }
     });
 }
-
-// runs program
-
-runProgram();
