@@ -33,7 +33,6 @@ function runProgram() {
       switch (choice) {
         case "Enter Random Student selector":
           process.exit();
-          break;
 
         case "Add students":
           addStudentMenu();
@@ -41,7 +40,6 @@ function runProgram() {
 
         default:
           process.exit();
-          break;
       }
     });
 }
