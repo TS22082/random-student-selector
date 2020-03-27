@@ -126,13 +126,31 @@ function chooseStudent() {
     const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
     const randomStudent = studentsArray[randomStudentIndex];
 
-    console.log(randomStudent.name);
+    console.log(
+      cowsay.say({
+        text: "\n" + randomStudent.name + "\n",
+        e: "oO",
+        T: "U "
+      }).rainbow + "\n"
+    );
+
     studentsArray.splice(randomStudentIndex, 1);
   } else {
-    studentsArray = [...fullStudentArray];
-    console.log("repopulating");
+    console.log("re-populating array...".green);
 
-    console.log(studentsArray);
+    studentsArray = [...fullStudentArray];
+    const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
+    const randomStudent = studentsArray[randomStudentIndex];
+
+    console.log(
+      cowsay.say({
+        text: "\n" + randomStudent.name + "\n",
+        e: "oO",
+        T: "U "
+      }).rainbow + "\n"
+    );
+
+    studentsArray.splice(randomStudentIndex, 1);
   }
 
   chooseStudentMenu();
