@@ -14,7 +14,8 @@ let studentsArray = [];
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/student-selector", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
   .then(async () => {
     fullStudentArray = await Student.find();
@@ -57,8 +58,16 @@ function runProgram() {
           addStudentMenu();
           break;
         case "Drop Students":
-          dropStudentMenu();
-          break;
+          if (fullStudentArray.length > 0) {
+            dropStudentMenu();
+            break;
+          } else {
+            console.log();
+            "!!! You must add students before you can drop anyone".red;
+            runProgram();
+            break;
+          }
+
         default:
           process.exit();
       }
@@ -79,8 +88,7 @@ function dropStudentMenu() {
     .then(res => {
       switch (res.dropStudentOptions) {
         case "Select Students":
-          console.log("feature not yet started");
-          runProgram();
+          dropSelectStudents();
           break;
 
         case "Drop All":
@@ -103,6 +111,29 @@ function dropStudentMenu() {
           runProgram();
           break;
       }
+    });
+}
+
+function dropSelectStudents() {
+  inquirer
+    .prompt([
+      {
+        type: "checkbox",
+        message: "Choose students to drop",
+        choices: fullStudentArray,
+        name: "studentsToDrop"
+      }
+    ])
+    .then(res => {
+      res.studentsToDrop.forEach(async studentToDrop => {
+        try {
+          await Student.findOneAndRemove({ name: studentToDrop });
+        } catch {
+          console.log("there was a problem");
+        }
+      });
+
+      runProgram();
     });
 }
 
