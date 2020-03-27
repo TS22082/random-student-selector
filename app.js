@@ -87,14 +87,15 @@ function addStudent() {
         name: "newStudent"
       }
     ])
-    .then(res =>
-      console.log(
-        Student.create({ name: res.newStudent }).then(newStudent => {
-          console.log(`${newStudent.name} was added succesfully`);
-          addStudentMenu();
-        })
-      )
-    );
+    .then(async res => {
+      const newStudent = await Student.create({ name: res.newStudent });
+      newStudent.save();
+      fullStudentArray = await Student.find();
+      studentsArray = [...fullStudentArray];
+
+      console.log(`${newStudent.name} was added succesfully`);
+      addStudentMenu();
+    });
 }
 
 //pick random student menu
@@ -136,7 +137,7 @@ function chooseStudent() {
 
     studentsArray.splice(randomStudentIndex, 1);
   } else {
-    console.log("re-populating array...".green);
+    console.log("re-populating array...");
 
     studentsArray = [...fullStudentArray];
     const randomStudentIndex = Math.floor(Math.random() * studentsArray.length);
