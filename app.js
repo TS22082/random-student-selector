@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 //Connect to student model
 const Student = require("./Models/Student");
 
+let fullStudentArray = [];
+let studentsArray = [];
+
 // Create a connection mongoDB
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/student-selector", {
@@ -14,8 +17,10 @@ mongoose
     useUnifiedTopology: true
   })
   .then(async () => {
-    const students = await Student.find();
-    console.log(students);
+    fullStudentArray = await Student.find();
+    studentsArray = [...fullStudentArray];
+    studentsArray.pop();
+
     runProgram();
   });
 
@@ -92,7 +97,7 @@ function addStudent() {
     );
 }
 
-//pick random student
+//pick random student menu
 function chooseStudentMenu() {
   inquirer
     .prompt([
