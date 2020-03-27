@@ -1,7 +1,6 @@
 # Random Student Selector
 
-This console tool will let teachers add students to a database drop select or all students, and choose a random student (cold call).
-When a student is selected it will remove them from the call list so everyone is sure to be called. When everyone has been called in the call list the database will repopulate the callist array
+This console tool will let teachers add students to a database, drop specific or all students, and choose a random student (cold call).
 
 # Motivation
 
@@ -9,7 +8,7 @@ I want to make sure everyone gets called in class so everyone can participate. A
 
 # Build Status
 
-Program is working.
+Program is working and in use in my classroom
 
 # Requirements
 
@@ -60,3 +59,5 @@ You can choose to delete noone by pressing enter with noone selecte
 The program will make sure noone is called twice before going through entire student list.
 Select "Enter Random Student Selector"
 Choose "Pick Student" to make acid cow choose a student at random
+
+![](assets/demo.gif)

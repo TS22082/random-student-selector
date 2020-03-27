@@ -83,7 +83,7 @@ function dropStudentMenu() {
       {
         type: "list",
         message: "What would you like to do?",
-        choices: ["Select Students", "Drop All", "Quit"],
+        choices: ["Select Students", "Quit"],
         name: "dropStudentOptions"
       }
     ])
@@ -91,23 +91,6 @@ function dropStudentMenu() {
       switch (res.dropStudentOptions) {
         case "Select Students":
           dropSelectStudents();
-          break;
-
-        case "Drop All":
-          Student.deleteMany()
-            .then(async () => {
-              console.log(
-                "\n!!! Entire collection of students were dropped\n".green
-              );
-
-              fullStudentArray = await Student.find();
-              studentsArray = [...fullStudentArray];
-
-              runProgram();
-            })
-            .catch(() => {
-              console.log("nothing to delete");
-            });
           break;
 
         default:
