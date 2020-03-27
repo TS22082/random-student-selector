@@ -1,89 +1,96 @@
-var inquirer = require('inquirer');
-var colors = require('colors');
-var cowsay = require('cowsay');
+const colors = require("colors");
+const cowsay = require("cowsay");
+const inquirer = require("inquirer");
 
-var students = [
-  'Adnan Niaz',
-  'Chin Kuay',
-  'Enkhtaivan Sain-Er',
-  'Herman Liu',
-  'Huan Nguyen',
-  'Irene Lee',
-  'Jennifer Ni',
-  'Jimmy Nguyen',
-  'Mario Alvarez',
-  'Martin Nguyen',
-  'Matthew Romano',
-  'Michael Alverez',
-  'Mohamed Htout',
-  'Patricio Aguilar',
-  'Sarah Nass',
-  'Wanjing Zhou',
-  'Wilson Wong',
-  'Ye Bao',
-  'Yi Nan'
-];
+const mongoose = require("mongoose");
 
-function pickStudent(arr) {
-  var arrayLength = arr.length;
+//Connect to student model
+const Student = require("./Models/Student");
 
-  if (arrayLength === 0) {
-    arr = [
-      'Adnan Niaz',
-      'Chin Kuay',
-      'Enkhtaivan Sain-Er',
-      'Herman Liu',
-      'Huan Nguyen',
-      'Irene Lee',
-      'Jennifer Ni',
-      'Jimmy Nguyen',
-      'Mario Alvarez',
-      'Martin Nguyen',
-      'Matthew Romano',
-      'Michael Alverez',
-      'Mohamed Htout',
-      'Patricio Aguilar',
-      'Sarah Nass',
-      'Wanjing Zhou',
-      'Wilson Wong',
-      'Ye Bao',
-      'Yi Nan'
-    ];
-    arrayLength = arr.length;
+// Create a connection mongoDB
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/student-selector",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   }
+);
 
-  var randomNum = Math.floor(Math.random() * arrayLength);
-  var randomStudent = arr[randomNum];
-
-  arr.splice(randomNum, 1);
-  console.log('\033[2J');
-  console.log(
-    cowsay.say({
-      text: '\n' + randomStudent + '\n',
-      e: 'oO',
-      T: 'U '
-    }).rainbow + '\n'
-  );
-}
-
+// function to start program
 function runProgram() {
   inquirer
     .prompt([
       {
-        type: 'list',
-        message: 'What would you like to do?',
-        choices: ['Pick a student', 'Quit'],
-        name: 'option'
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["Enter Random Student selector", "Add students", "Quit"],
+        name: "option"
       }
     ])
     .then(inqurerResponse => {
-      if (inqurerResponse.option === 'Quit') {
-        process.exit();
-      } else {
-        pickStudent(students);
-        runProgram();
+      const choice = inqurerResponse.option;
+
+      switch (choice) {
+        case "Enter Random Student selector":
+          process.exit();
+          break;
+
+        case "Add students":
+          addStudentMenu();
+          break;
+
+        default:
+          process.exit();
+          break;
       }
     });
 }
+
+//function that brings user to add student menu screen
+function addStudentMenu() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["Add Student", "Quit"],
+        name: "addScreenOption"
+      }
+    ])
+    .then(inqurerResponse => {
+      const choice = inqurerResponse.addScreenOption;
+
+      switch (choice) {
+        case "Add Student":
+          addStudent();
+          break;
+        default:
+          runProgram();
+          break;
+      }
+    });
+}
+
+// screen for user to input student name
+function addStudent() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter students name",
+        name: "newStudent"
+      }
+    ])
+    .then(res =>
+      console.log(
+        Student.create({ name: res.newStudent }).then(newStudent => {
+          console.log(`${newStudent.name} was added succesfully`);
+          addStudentMenu();
+        })
+      )
+    );
+}
+
+// runs program
 
 runProgram();
