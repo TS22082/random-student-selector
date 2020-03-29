@@ -34,10 +34,6 @@ node app.js
 \*\*\*Note:
 A mongodb database instance named "student-selector" will be created
 
-\*\*\*Optional
-
-Use pkg from npm to make an executable. Add to system variables to make executable from any folder from terminal
-
 # Instructions
 
 ## Adding Students
@@ -59,5 +55,25 @@ You can choose to delete noone by pressing enter with noone selecte
 The program will make sure noone is called twice before going through entire student list.
 Select "Enter Random Student Selector"
 Choose "Pick Student" to make acid cow choose a student at random
+
+## Build and Make exectutable (optional but highly recommended)
+
+I use the [pkg](https://www.npmjs.com/package/pkg) npm package to make executables from my node projects; That way I can add to my system variables path and run from anywhere through terminal.
+
+run command:
+
+```
+npm install -g pkg
+```
+
+then from inside the project folder run:
+
+```
+pkg package.json --target <system>
+```
+
+system relates to system ou want to make executable for. example: "win", "mac", "linux"
+
+if you leave out `--target <system>` it will default to making all 3 executables.
 
 ![](assets/demo.gif)
