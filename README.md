@@ -77,3 +77,11 @@ system relates to system ou want to make executable for. example: "win", "mac", 
 if you leave out `--target <system>` it will default to making all 3 executables.
 
 ![](assets/demo.gif)
+
+## With the option of showing remaining and called on students after each random choice
+
+Supply any argument when starting the program and it will show a table of the remaining and called on students after each random student is picked.
+
+i.e. `node app.js true`
+
+![](assets/remaining_students.gif)

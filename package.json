@@ -5,6 +5,8 @@
   "main": "app.js",
   "bin": "app.js",
   "scripts": {
+    "lint": "eslint --ext .js ./ Models",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,5 +16,12 @@
     "cowsay": "^1.4.0",
     "inquirer": "^7.0.0",
     "mongoose": "^5.9.5"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
   }
 }
